@@ -1,13 +1,13 @@
 import 'package:shishio/interfaces/manga.dart';
 
 class AppState {
-  int increment;
+  int minimumScore;
   List<Manga> mangas;
 
-  AppState(this.increment, this.mangas) {}
+  AppState(this.minimumScore, this.mangas) {}
 
   AppState.fromAppState(AppState another) {
-    increment = another.increment;
+    minimumScore = another.minimumScore;
     mangas = another.mangas;
   }
 }

@@ -10,10 +10,14 @@ class MangasLoaded {
   MangasLoaded(this.mangas) {}
 }
 
+class UpdateMinimumScore {
+  int minimumScore;
+  UpdateMinimumScore(this.minimumScore) {}
+}
+
 class LoadMangas {
   ThunkAction<AppState> getMangas = (Store<AppState> store) async {
-
-    var url = 'http://webarranco.fr:1208/mangas/all/shonen/10';
+    var url = 'http://webarranco.fr:1208/mangas/all';
     var response = await http.get(url);
 
     List<Manga> mangas = new List<Manga>();
@@ -21,13 +25,11 @@ class LoadMangas {
 
     values = json.decode(response.body.toString());
 
-    for(int i=0;i<values.length;i++){
-      Map<String,dynamic> manga = values[i];
+    for (int i = 0; i < values.length; i++) {
+      Map<String, dynamic> manga = values[i];
       mangas.add(Manga.fromJson(manga));
     }
 
-    store.dispatch(
-      MangasLoaded(mangas)
-    );
+    store.dispatch(MangasLoaded(mangas));
   };
 }

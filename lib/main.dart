@@ -5,11 +5,15 @@ import 'package:redux_thunk/redux_thunk.dart';
 
 import 'package:shishio/interfaces/app-state.dart';
 import 'package:shishio/reducers/root-reducer.dart';
+import 'package:shishio/widgets/input-score.dart';
 import 'package:shishio/widgets/load-button.dart';
 import 'package:shishio/widgets/manga-list.dart';
 
+import 'actions/manga.actions.dart';
+
 void main() async {
-  final store = Store<AppState>(rootReducer, initialState: AppState(0, []), middleware: [thunkMiddleware]);
+  final store = Store<AppState>(rootReducer,
+      initialState: AppState(0, []), middleware: [thunkMiddleware]);
 
   runApp(FlutterReduxApp(
     title: 'Shishio',
@@ -31,19 +35,19 @@ class FlutterReduxApp extends StatelessWidget {
         theme: ThemeData.dark(),
         title: title,
         home: Scaffold(
-          appBar: AppBar(
-            title: Text(title),
-          ),
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                mangaList()
-              ],
+            appBar: AppBar(
+              title: Text(title),
             ),
-          ),
-          floatingActionButton: loadButton(),
-        ),
+            body: new Column(
+              children: <Widget>[
+                SizedBox(height: 60, child: inputScore(store)),
+                Expanded(
+                  child: SizedBox(height: 700.0, child: mangaList()),
+                ),
+                loadButton(),
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            )),
       ),
     );
   }

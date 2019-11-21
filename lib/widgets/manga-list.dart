@@ -6,14 +6,25 @@ import 'package:shishio/interfaces/app-state.dart';
 
 Widget mangaList() {
   return StoreConnector<AppState, List<Manga>>(
-    converter: (store) => store.state.mangas,
+    converter: (store) => store.state.mangas
+        .where((f) => double.parse(f.score) >= store.state.minimumScore)
+        .toList(),
     builder: (context, mangas) {
-      return Column(children: mangas.map((manga) =>
-        Row(children: [
-        Text(manga.name),
-        Text(manga.score)
-        ])
-      ).toList());
+      return new ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: mangas.length,
+        itemBuilder: (BuildContext ctxt, int index) {
+          return Container(
+            padding: EdgeInsets.all(16.0),
+            child: Row(children: [
+              Text(mangas[index].name),
+              Text(' : '),
+              Text(mangas[index].score),
+              Text('/10')
+            ]),
+          );
+        },
+      );
     },
   );
 }
